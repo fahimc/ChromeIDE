@@ -1,0 +1,88 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+html, body {
+	width: 100%;
+	height: 100%;
+	background-color: #111212;
+	color: #a6a6a6;
+	font-family: "Cabin Medium", cabinmedium, cabin, sans-serif;
+}
+header {
+	display: block;
+	width: 100%;
+	background-color: #363639;
+	border-top: 1px solid #3c3c3f;
+	padding: 10px 10px 10px 10px;
+	box-sizing: border-box;
+	font-size: 10px;
+}
+button {
+	display: inline-block;
+	padding: 3px 8px 3px 8px;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#39393d), color-stop(52%,#343437), color-stop(100%,#2d2e30)); /* Chrome,Safari4+ */
+	color: #898989;
+	cursor: pointer;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	font-size: 13px;
+	border: 1px solid #151517;
+	-webkit-box-shadow: inset 0px 1px 0px 0px #464648
+}
+button:hover {
+	color: #dddddd;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#49494c), color-stop(52%,#434245), color-stop(100%,#3b3b3d)); /* Chrome,Safari4+ */
+	-webkit-box-shadow: inset 0px 1px 0px 0px #545457;
+}
+
+header.title {
+	padding: 5px;
+	text-align: right;
+	-webkit-app-region: drag;
+}
+header.title button {
+	-webkit-app-region: no-drag;
+}
+header.hide {
+	display: none;
+}
+#titlebar_title {
+	float: left;
+	font-size: 14px;
+	margin-top: 5px;
+	margin-left: 10px;
+	text-transform: uppercase;
+}
+.panel, .module
+{
+	width:100%;
+	height:100%;
+	display: block;
+}
+.panel .module .tabsHolder
+{
+	width:100%;
+	height:30px;
+	background-color: #000;
+	display: block;
+	
+}
+.panel .module .tabsHolder .tab
+{
+	background-color: #666;
+	display: inline-block;
+	padding: 10px;
+	cursor: pointer;
+	margin-right:3px; 
+}
+.panel .module .tabsHolder .tab.active
+{
+	background-color: #f00;
+}
+.editorHolder
+{
+	width:100%;
+	height:calc(100% - 30px);
+	display: block;
+}

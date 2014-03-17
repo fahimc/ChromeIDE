@@ -1,0 +1,16 @@
+{
+	"name": "Test",
+	"description": "Test",
+	"manifest_version": 2,
+	"version": "0.2",
+	"app": {
+		"background": {
+			"scripts": ["src/background.js"]
+		}
+	},
+	"permissions": ["webview", "tabs", "http://localhost/appManager/admin/getAllApps.php","alwaysOnTopWindows"],
+	"icons": {
+		"128": "icon.png"
+	},
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}
