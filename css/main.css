@@ -100,7 +100,7 @@ header.hide {
 	height:30px;
 	background-color: #000;
 	display: block;
-	
+	overflow: hidden;
 }
 .panel .module .tab
 {
