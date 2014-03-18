@@ -6,7 +6,7 @@ app.module.Editor = (function() {
   };
 
   _Class.extend(Editor, UIElement, {
-    _editor : null,
+    editor : null,
     id : null,
     _construct : function() {
       this.editor = null;
@@ -42,6 +42,9 @@ app.module.Editor = (function() {
     },
     getText : function() {
       return this.editor.getValue();
+    },
+    purge:function(){
+    	
     }
   });
 

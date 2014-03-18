@@ -17,6 +17,9 @@ var UIElement = (function() {
     },
     arrange : function() {
 
+    },
+    purge:function(){
+    	
     }
   };
 

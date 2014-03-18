@@ -25,12 +25,9 @@
 	}
 	
 	function build(){
-		var panel1 = window.p =  new Panel(app.module.TabsEditor);
-		panel1.build();
-		var panel2 =new Panel(app.module.TabsEditor);
-    panel2.build();
-		document.getElementById('panelHolder').appendChild(panel1.getElement());
-		document.getElementById('panelHolder').appendChild(panel2.getElement());
+		PanelManager.create(app.module.TabsEditor);
+		PanelManager.create(app.module.TabsEditor);
+		
 	}
 	
 	function onButtonClick(event) {

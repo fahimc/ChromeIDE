@@ -1,3 +1,4 @@
+@import url(http://fonts.googleapis.com/css?family=Inconsolata);
 * {
 	padding: 0;
 	margin: 0;
@@ -7,7 +8,27 @@ html, body {
 	height: 100%;
 	background-color: #111212;
 	color: #a6a6a6;
-	font-family: "Cabin Medium", cabinmedium, cabin, sans-serif;
+	overflow:hidden;
+	font-family:  "Inconsolata", sans-serif;
+}
+::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	/*border-radius: 10px;*/
+	background-color: #111212;
+}
+
+::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #555;
 }
 header {
 	display: block;
@@ -54,6 +75,9 @@ header.hide {
 	margin-left: 10px;
 	text-transform: uppercase;
 }
+/*
+ * PANEL
+ */
 #panelHolder
 {
 	width:100%;
@@ -61,9 +85,10 @@ header.hide {
 }
 .panel, .module
 {
-	width:50%;
+	width:100%;
 	height:100%;
 	display: inline-block;
+	position: relative;
 }
 .module
 {
@@ -77,21 +102,69 @@ header.hide {
 	display: block;
 	
 }
-.panel .module .tabsHolder .tab
+.panel .module .tab
 {
-	background-color: #666;
+	/*background-color: #666;*/
 	display: inline-block;
-	padding: 10px;
+	padding: 0 30px 0 10px;
 	cursor: pointer;
-	margin-right:3px; 
+	margin-right: -65px;
+	position: relative;
+	
+	 height: 0; 
+   border-bottom: 80px solid #565751;
+   border-left: 40px solid transparent;
+   border-right: 40px solid transparent;
 }
-.panel .module .tabsHolder .tab.active
+.panel .module .tab span
 {
-	background-color: #f00;
+	font-size:11px;
+	margin-top: 9px;
+	display: block;
+	color:#FFF;
 }
+.panel .module .tab.active
+{
+	 border-bottom: 80px solid #272822;
+   border-left: 40px solid transparent;
+   border-right: 40px solid transparent;
+}
+.panel .module .tab .close
+{
+	font-size:11px;
+	color:#FFF;
+	width:10px;
+	height:20px;
+	position: absolute;
+	right:5px;
+	top:5px;
+	z-index: 5;
+}
+.panel.left
+{
+	width:50%;
+}
+.panel.right
+{
+	width:50%;
+}
+/*
+ * EDITOR
+ */
 .editorHolder
 {
 	width:100%;
 	height:calc(100% - 30px);
 	display: block;
+}
+.navigator
+{
+	width: 75px;
+	min-height: 100px;
+	background-color: #ccc;
+	position: absolute;
+	top:30px;
+	right:0;
+	opacity: 0.3;
+	z-index: 5;
 }
