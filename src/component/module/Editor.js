@@ -1,44 +1,49 @@
 app.module.Editor = (function() {
 
-	function Editor() {
-		this.editor = null;
-		this.init();
-	};
+  function Editor() {
 
-	_Class.extend(Editor, UIElement, {
-		_editor : null,
-		id : null,
-		build : function() {
+    this._construct();
+  };
 
-			this.getElement().classList.add('module');
-			this.getElement().classList.add('editor');
+  _Class.extend(Editor, UIElement, {
+    _editor : null,
+    id : null,
+    _construct : function() {
+      this.editor = null;
+      this.id = 0;
+      _Class._super(this,"_construct");
+    },
+    build : function() {
 
-			this.editor = ace.edit(this.getElement());
+      this.getElement().classList.add('module');
+      this.getElement().classList.add('editor');
 
-			this.editor.setOptions({
-				enableBasicAutocompletion : true
-			});
+      this.editor = ace.edit(this.getElement());
 
-			this.editor.setTheme("ace/theme/monokai");
-			this.editor.getSession().setMode("ace/mode/javascript");
-			this.editor.getSession().setUseWrapMode(true);
+      this.editor.setOptions({
+        enableBasicAutocompletion : true
+      });
 
-		},
-		arrange : function() {
+      this.editor.setTheme("ace/theme/monokai");
+      this.editor.getSession().setMode("ace/mode/javascript");
+      this.editor.getSession().setUseWrapMode(true);
 
-			if (this.editor)
-				this.editor.resize();
-		},
-		changeTheme : function(str) {
-			this.editor.setTheme(str);
-		},
-		changeMode : function(mode) {
-			this.editor.getSession().setMode(mode);
-		},
-		getText : function() {
-			return this.editor.getValue();
-		}
-	});
+    },
+    arrange : function() {
 
-	return Editor;
+      if (this.editor)
+        this.editor.resize();
+    },
+    changeTheme : function(str) {
+      this.editor.setTheme(str);
+    },
+    changeMode : function(mode) {
+      this.editor.getSession().setMode(mode);
+    },
+    getText : function() {
+      return this.editor.getValue();
+    }
+  });
+
+  return Editor;
 })();

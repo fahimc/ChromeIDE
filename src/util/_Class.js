@@ -62,20 +62,20 @@ var _Class = {
 
 	extend : function(obj, base,p) {
 		
-		
 		var pro = this.clone(obj.prototype,true);
 		
-		obj.prototype = new base();
+		
+		obj.prototype = Object.create(new base());
+		
+		obj.prototype.constructor = obj;
+		
+		obj.prototype._baseClass = base;
 		
 		Object.defineProperty(obj.prototype, 'constructor', {
 			enumerable : false,
-			value : function() {
-				
-				
-				base.apply(this, arguments);
-				obj.apply(this, arguments);
-			}
+			value : obj
 		});
+		
 		
 		if(pro)this.proto(obj,pro);
 		if(p)this.proto(obj,p);

@@ -1,12 +1,14 @@
 var EventDispatcher=(function(){
 	
 	function EventDispatcher(){
-		this._events=[];
+		this._construct();
 	};
 	
 	EventDispatcher.prototype=
 	{
-		_events : [],
+	  _construct:function(){
+	    this._events=[];
+	  },
 		addEventListener : function(name, callback) {
 			if(!this._events[name])this._events[name]=[];
 			this._events[name].push(callback);

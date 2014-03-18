@@ -54,11 +54,20 @@ header.hide {
 	margin-left: 10px;
 	text-transform: uppercase;
 }
-.panel, .module
+#panelHolder
 {
 	width:100%;
+	height: calc( 100% - 35px );
+}
+.panel, .module
+{
+	width:50%;
 	height:100%;
-	display: block;
+	display: inline-block;
+}
+.module
+{
+	width:100%;
 }
 .panel .module .tabsHolder
 {

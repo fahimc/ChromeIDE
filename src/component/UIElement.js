@@ -1,26 +1,25 @@
 var UIElement = (function() {
 
-	function UIElement() {
-		this._element = null;
-		this.init();
-	};
+  function UIElement() {
+    this._construct();
+  };
 
-	UIElement.prototype = {
-		_element : null,
-		init : function() {
-			this._element = document.createElement('DIV');
-		},
-		build:function(){
-			
-		},
-		getElement:function(){
-			return this._element;
-		},
-		arrange:function(){
-			
-		}
-	};
+  UIElement.prototype = {
+    _element : null,
+    _construct : function() {
+        this._element = document.createElement('DIV');
+    },
+    build : function() {
 
-	return UIElement;
+    },
+    getElement : function() {
+      return this._element;
+    },
+    arrange : function() {
+
+    }
+  };
+
+  return UIElement;
 
 })();

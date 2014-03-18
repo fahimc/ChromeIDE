@@ -27,7 +27,10 @@
 	function build(){
 		var panel1 = window.p =  new Panel(app.module.TabsEditor);
 		panel1.build();
-		document.body.appendChild(panel1.getElement());
+		var panel2 =new Panel(app.module.TabsEditor);
+    panel2.build();
+		document.getElementById('panelHolder').appendChild(panel1.getElement());
+		document.getElementById('panelHolder').appendChild(panel2.getElement());
 	}
 	
 	function onButtonClick(event) {
