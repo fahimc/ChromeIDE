@@ -82,6 +82,7 @@ header.hide {
 {
 	width:100%;
 	height: calc( 100% - 35px );
+	position: relative;
 }
 .panel, .module
 {
@@ -89,6 +90,46 @@ header.hide {
 	height:100%;
 	display: inline-block;
 	position: relative;
+}
+.panel
+{
+	position: absolute;
+}
+.panel.left
+{
+	left:0;
+	width:50%;
+}
+.panel.right
+{
+	right:0;
+	width:50%;
+}
+.panel.left_top
+{
+	left:0;
+	width:50%;
+	height:50%;
+}
+.panel.left_bottom
+{
+	left:0;
+	bottom:0;
+	width:50%;
+	height:50%;
+}
+.panel.right_top
+{
+	right:0;
+	width:50%;
+	height:50%;
+}
+.panel.right_bottom
+{
+	right:0;
+	bottom:0;
+	width:50%;
+	height:50%;
 }
 .module
 {
@@ -140,14 +181,7 @@ header.hide {
 	top:5px;
 	z-index: 5;
 }
-.panel.left
-{
-	width:50%;
-}
-.panel.right
-{
-	width:50%;
-}
+
 /*
  * EDITOR
  */

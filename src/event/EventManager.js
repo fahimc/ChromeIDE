@@ -6,7 +6,9 @@ var EventManager = (function() {
 
 
 	_Class.extend(EventManager, EventDispatcher, {
-		
+		data:{
+			transfer:null
+		}
 	});
 	return new EventManager();
 })();

@@ -6,7 +6,6 @@ app.module.TabsEditor = (function() {
 
 	};
 	_Class.extend(TabsEditor, Module, {
-		_index : 0,
 		_tabHolder : null,
 		_editorHolder : null,
 		_currentEditor : null,
@@ -15,7 +14,7 @@ app.module.TabsEditor = (function() {
 		_tabCollection : [],
 		_editor : null,
 		_construct : function() {
-			this._index = 0;
+
 			this._tabHolder = null;
 			this._editorHolder = null;
 			this._currentEditor = null;
@@ -37,11 +36,11 @@ app.module.TabsEditor = (function() {
 			this.getElement().appendChild(this._editorHolder);
 
 			this.getElement().classList.add('module');
-			
-			this.navi = new Navigator();
-			this.navi.build();
-			this.getElement().appendChild(this.navi.getElement());
-				
+
+			// this.navi = new Navigator();
+			// this.navi.build();
+			// this.getElement().appendChild(this.navi.getElement());
+
 			//DEBUG
 			var rand = Math.floor(Math.random() * 4) + 1;
 
@@ -49,26 +48,43 @@ app.module.TabsEditor = (function() {
 				this.add();
 			}
 
+			this.setListeners();
+
 		},
 		add : function(src) {
-			this._index++;
-			var _tab = new Tab(src, this._index);
-
-			_tab.addEventListener(Tab.events.SELECTED, this.onTabClicked.bind(this));
-			_tab.addEventListener(Tab.events.CLOSE, this.onTabCloseClicked.bind(this));
+			PanelModel.tabIndex++;
+			var _tab = new Tab(src, PanelModel.tabIndex);
 
 			_tab.build();
-			this._tabHolder.getElement().appendChild(_tab.getElement());
-			this._tabCollection.push(_tab);
 
 			var _editor = new app.module.Editor();
-			_editor.id = this._index;
+			_editor.id = PanelModel.tabIndex;
 			_editor.build();
-			_editor.editor.on('input', this.onEditorKey.bind(this));
-			this._editorCollection.push(_editor);
+
+			this.addTabAndEditor(_tab, _editor);
+
 			this.switchEditor(_editor);
-			
-			
+
+		},
+		addTabAndEditor : function(tab, editor) {
+			tab.data = {
+				panelId : this.panelId
+			};
+
+			tab.addEventListener(Tab.events.SELECTED, 'onTabClicked', this);
+			tab.addEventListener(Tab.events.CLOSE, 'onTabCloseClicked', this);
+			editor.editor.on('input', this.onEditorKey.bind(this));
+
+			this._tabHolder.getElement().appendChild(tab.getElement());
+			this._tabCollection.push(tab);
+
+			editor.panelId = this.panelId;
+
+			this._editorCollection.push(editor);
+		},
+		setListeners : function() {
+			EventManager.addEventListener(Tab.events.DROP_ON_CONTAINER, "onDropTabContainer", this);
+			EventManager.addEventListener(Tab.events.DROP_ON_MODULE, "onDropTabModule", this);
 		},
 		getEditor : function(id) {
 			for (var a = 0; a < this._editorCollection.length; a++) {
@@ -95,6 +111,15 @@ app.module.TabsEditor = (function() {
 			}
 			return null;
 		},
+		getPreviousItemById : function(collection, id) {
+			for (var a = 0; a < collection.length; a++) {
+				if (collection[a].id == id) {
+					var item = collection[a - 1];
+					return item;
+				}
+			}
+			return null;
+		},
 		getTab : function(id) {
 			for (var a = 0; a < this._tabCollection.length; a++) {
 				if (this._tabCollection[a].id == id)
@@ -112,6 +137,9 @@ app.module.TabsEditor = (function() {
 			this._currentTab = this.getTab(editor.id);
 			this._currentTab.getElement().classList.add('active');
 		},
+		addExisting : function(tab, editor) {
+
+		},
 		arrange : function() {
 			if (this._editor)
 				this._editor.arrange();
@@ -124,23 +152,79 @@ app.module.TabsEditor = (function() {
 
 		},
 		onTabCloseClicked : function(event) {
-		
+
 			var editor = this.removeEditor(event.id);
 			var tab = this.removeTab(event.id);
-			if(this._currentEditor==editor)
-			this._editorHolder.removeChild(editor.getElement());
+			this.removeTabAndEditor(tab, editor);
+		},
+		removeTabAndEditor : function(tab, editor, keep) {
+			if (this._currentEditor == editor) {
+				this._editorHolder.removeChild(editor.getElement());
+
+				var nextEditor = this.getPreviousItemById(this._editorCollection, editor.id);
+				this._currentEditor = null;
+				if (nextEditor && nextEditor != editor)
+					this.switchEditor(nextEditor);
+			}
 			this._tabHolder.getElement().removeChild(tab.getElement());
-			editor.purge();
-			tab.purge();
-			editor = null;
-			tab = null;
+
+			this.removeTab(tab.id);
+			this.removeEditor(editor.id);
+
+			tab.removeEventListener(Tab.events.SELECTED, "onTabClicked", this);
+			tab.removeEventListener(Tab.events.CLOSE, "onTabCloseClicked", this);
+			editor.editor.removeListener('input', this.onEditorKey.bind(this));
+
+			if (!keep) {
+				editor.purge();
+				tab.purge();
+				editor = null;
+				tab = null;
+			}
 			if (this._tabCollection.length == 0)
 				EventManager.dispatchEvent(Panel.events.REMOVE, {
 					panelId : this.panelId
 				});
 		},
-		onEditorKey:function(){
+		onEditorKey : function() {
 			this.navi.update(this._currentEditor);
+		},
+		onDropTabContainer : function(event) {
+
+			if (this._tabHolder == event.container && !this.getTab(event.transfer.id)) {
+				var tab = event.transfer;
+				var panelId = tab.data.panelId;
+				var panel = PanelManager.getPanelByIndex(panelId);
+				var tabEditor = panel.module;
+				var editor = tabEditor.getEditor(tab.id);
+
+				tabEditor.removeTabAndEditor(tab, editor, true);
+
+				this.addTabAndEditor(tab, editor);
+				this.switchEditor(editor);
+			}
+		},
+		onDropTabModule : function(event) {
+			var tab = event.transfer;
+			var editor = event.editor;
+			var panelId = tab.data.panelId;
+			var panel = PanelManager.getPanelByIndex(panelId);
+			var tabEditor = panel.module;
+			var conEditor = tabEditor.getEditor(tab.id);
+	
+			if (editor && this.getEditor(editor.id) && this.panelId == editor.panelId) {
+	
+				var newPanel = PanelManager.create(app.module.TabsEditor);
+				if (newPanel) {
+					tabEditor.removeTabAndEditor(tab, conEditor, true);
+					setTimeout(function() {
+						newPanel.module.addTabAndEditor(tab, conEditor);
+						newPanel.module.switchEditor(conEditor);
+					}, 30);
+
+				}
+			}
+
 		}
 	});
 
