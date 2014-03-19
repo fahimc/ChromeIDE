@@ -31,6 +31,10 @@ var Tab = (function() {
       this.closeButton = document.createElement("DIV");
       this.titleSpan.innerHTML = this.title!=undefined?this.title: "untitled"+this.id;
       this.closeButton.innerHTML = "x";
+      
+      
+      this.getElement().setAttribute('draggable',true);
+      
       this.getElement().appendChild(this.titleSpan);
       this.getElement().appendChild(this.closeButton);
 
@@ -41,6 +45,7 @@ var Tab = (function() {
     },
     setListeners : function() {
       this.getElement().addEventListener('click', this.onClick.bind(this));
+      this.getElement().addEventListener('startdrag', this.onDrag.bind(this));
       this.closeButton.addEventListener('click', this.onCloseClick.bind(this));
     },
     onClick : function(event) {
@@ -56,6 +61,9 @@ var Tab = (function() {
       });
       
       event.stopPropagation();
+    },
+    onDrag:function(event){
+      event.dataTransfer.setData('text/plain','hello');
     }
   });
 

@@ -28,9 +28,9 @@ app.module.TabsEditor = (function() {
 		},
 		build : function() {
 
-			this._tabHolder = document.createElement('DIV');
-			this._tabHolder.classList.add('tabsHolder');
-			this.getElement().appendChild(this._tabHolder);
+			this._tabHolder = new app.module.TabContainer();
+			this._tabHolder.build();
+			this.getElement().appendChild(this._tabHolder.getElement());
 
 			this._editorHolder = document.createElement('DIV');
 			this._editorHolder.classList.add('editorHolder');
@@ -58,7 +58,7 @@ app.module.TabsEditor = (function() {
 			_tab.addEventListener(Tab.events.CLOSE, this.onTabCloseClicked.bind(this));
 
 			_tab.build();
-			this._tabHolder.appendChild(_tab.getElement());
+			this._tabHolder.getElement().appendChild(_tab.getElement());
 			this._tabCollection.push(_tab);
 
 			var _editor = new app.module.Editor();
@@ -129,7 +129,7 @@ app.module.TabsEditor = (function() {
 			var tab = this.removeTab(event.id);
 			if(this._currentEditor==editor)
 			this._editorHolder.removeChild(editor.getElement());
-			this._tabHolder.removeChild(tab.getElement());
+			this._tabHolder.getElement().removeChild(tab.getElement());
 			editor.purge();
 			tab.purge();
 			editor = null;
