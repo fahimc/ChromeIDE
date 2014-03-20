@@ -194,7 +194,7 @@ app.module.TabsEditor = (function() {
 			if (this._tabHolder == event.container && !this.getTab(event.transfer.id)) {
 				var tab = event.transfer;
 				var panelId = tab.data.panelId;
-				var panel = PanelManager.getPanelByIndex(panelId);
+				var panel = PanelManager.getPanelById(panelId);
 				var tabEditor = panel.module;
 				var editor = tabEditor.getEditor(tab.id);
 
@@ -208,7 +208,7 @@ app.module.TabsEditor = (function() {
 			var tab = event.transfer;
 			var editor = event.editor;
 			var panelId = tab.data.panelId;
-			var panel = PanelManager.getPanelByIndex(panelId);
+			var panel = PanelManager.getPanelById(panelId);
 			var tabEditor = panel.module;
 			var conEditor = tabEditor.getEditor(tab.id);
 	

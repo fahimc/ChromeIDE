@@ -38,6 +38,15 @@ var PanelManager = (function() {
 			}
 			return null;
 		},
+		getPanelById : function(id) {
+			for (var a = 0; a < this._panels.length; a++) {
+				if (this._panels[a].id == id) {
+					var item = this._panels[a];
+					return item;
+				}
+			}
+			return null;
+		},
 		arrange : function() {
 			for (var a = 0; a < this._panels.length; a++) {
 
